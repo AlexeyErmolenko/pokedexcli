@@ -1,4 +1,4 @@
-package api
+package pokeapi
 
 import (
 	"encoding/json"
@@ -12,7 +12,7 @@ type LocationArea struct {
 	URL  string
 }
 
-func GetLocationAreas(curPage int) (*Pagination[LocationArea], error) {
+func (c *Client) GetLocationAreas(curPage int) (*Pagination[LocationArea], error) {
 	path := "location-area/"
 	query := fmt.Sprintf("?offset=%d&limit=%d", curPage*defaultLimit, defaultLimit)
 	req, err := http.NewRequest(http.MethodGet, baseURL+path+query, nil)
@@ -22,8 +22,7 @@ func GetLocationAreas(curPage int) (*Pagination[LocationArea], error) {
 	}
 
 	req.Header.Set("Accept", "application/json")
-	client := http.Client{}
-	res, err := client.Do(req)
+	res, err := c.httpClient.Do(req)
 
 	if err != nil {
 		return &Pagination[LocationArea]{}, sendingError(err)

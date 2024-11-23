@@ -1,4 +1,4 @@
-package api
+package pokeapi
 
 type Pagination[T any] struct {
 	Results  []T    `json:"results"`
