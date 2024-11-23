@@ -8,9 +8,9 @@ import (
 )
 
 type config struct {
-	pokeApiClient pokeapi.Client
-	nextPage      int
-	prevPage      int
+	pokeApiClient   pokeapi.Client
+	nextLocationUrl string
+	prevLocationUrl string
 }
 
 func startRepl(conf *config) {

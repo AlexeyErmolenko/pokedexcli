@@ -3,7 +3,6 @@ package pokeapi
 import "fmt"
 
 var baseURL = "https://pokeapi.co/api/v2/"
-var defaultLimit = 3
 
 func requestError(err error) error {
 	return fmt.Errorf("request error: %w", err)

@@ -2,7 +2,6 @@ package pokeapi
 
 import (
 	"encoding/json"
-	"fmt"
 	"io"
 	"net/http"
 )
@@ -12,10 +11,12 @@ type LocationArea struct {
 	URL  string
 }
 
-func (c *Client) GetLocationAreas(curPage int) (*Pagination[LocationArea], error) {
-	path := "location-area/"
-	query := fmt.Sprintf("?offset=%d&limit=%d", curPage*defaultLimit, defaultLimit)
-	req, err := http.NewRequest(http.MethodGet, baseURL+path+query, nil)
+func (c *Client) GetLocationAreas(url string) (*Pagination[LocationArea], error) {
+	if len(url) == 0 {
+		url = baseURL + "location-area/"
+	}
+
+	req, err := http.NewRequest(http.MethodGet, url, nil)
 
 	if err != nil {
 		return &Pagination[LocationArea]{}, requestError(err)
