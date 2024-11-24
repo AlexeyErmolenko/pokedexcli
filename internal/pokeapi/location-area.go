@@ -11,7 +11,7 @@ type LocationArea struct {
 	URL  string
 }
 
-func (c *Client) GetLocationAreas(url string) (*Pagination[LocationArea], error) {
+func (c *Client) GetLocationAreas(url string) ([]byte, error) {
 	if len(url) == 0 {
 		url = baseURL + "location-area/"
 	}
@@ -19,37 +19,32 @@ func (c *Client) GetLocationAreas(url string) (*Pagination[LocationArea], error)
 	req, err := http.NewRequest(http.MethodGet, url, nil)
 
 	if err != nil {
-		return &Pagination[LocationArea]{}, requestError(err)
+		return nil, requestError(err)
 	}
 
 	req.Header.Set("Accept", "application/json")
 	res, err := c.httpClient.Do(req)
 
 	if err != nil {
-		return &Pagination[LocationArea]{}, sendingError(err)
+		return nil, sendingError(err)
 	}
 
 	defer res.Body.Close()
 	body, err := io.ReadAll(res.Body)
 
 	if err != nil {
-		return &Pagination[LocationArea]{}, readResponseError(err)
+		return nil, readResponseError(err)
 	}
 
-	var resStruct Pagination[LocationArea]
-	err = parseLocationAreas(body, &resStruct)
+	return body, nil
+}
 
-	if err != nil {
-		return &Pagination[LocationArea]{}, err
+func (c *Client) ParseLocationAreas(body []byte) (*Pagination[LocationArea], error) {
+	var resStruct Pagination[LocationArea]
+
+	if err := json.Unmarshal(body, &resStruct); err != nil {
+		return nil, parseError(err)
 	}
 
 	return &resStruct, nil
-}
-
-func parseLocationAreas(body []byte, resStruct *Pagination[LocationArea]) error {
-	if err := json.Unmarshal(body, resStruct); err != nil {
-		return parseError(err)
-	}
-
-	return nil
 }

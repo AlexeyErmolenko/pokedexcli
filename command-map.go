@@ -6,28 +6,37 @@ import (
 )
 
 func commandMap(conf *config) error {
-	page, err := conf.pokeApiClient.GetLocationAreas(conf.nextLocationUrl)
-	if err != nil {
-		return err
-	}
-
-	showLocationAreas(&page.Results)
-
-	conf.nextLocationUrl = page.Next
-	conf.prevLocationUrl = page.Previous
-
-	return nil
+	return getLocation(conf, conf.nextLocationUrl)
 }
 
 func commandMapB(conf *config) error {
-	page, err := conf.pokeApiClient.GetLocationAreas(conf.prevLocationUrl)
+	return getLocation(conf, conf.prevLocationUrl)
+}
+
+func getLocation(conf *config, url string) error {
+	body, ok := conf.pokeCache.Get(url)
+
+	if ok != true {
+		data, err := conf.pokeApiClient.GetLocationAreas(url)
+
+		if err != nil {
+			return err
+		}
+
+		body = data
+	}
+
+	page, err := conf.pokeApiClient.ParseLocationAreas(body)
 	if err != nil {
 		return err
 	}
 
 	showLocationAreas(&page.Results)
+
 	conf.nextLocationUrl = page.Next
 	conf.prevLocationUrl = page.Previous
+
+	conf.pokeCache.Add(url, body)
 
 	return nil
 }

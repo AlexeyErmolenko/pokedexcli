@@ -4,11 +4,13 @@ import (
 	"bufio"
 	"fmt"
 	"github.com/AlexeyErmolenko/pokedexcli/internal/pokeapi"
+	"github.com/AlexeyErmolenko/pokedexcli/internal/pokecache"
 	"os"
 )
 
 type config struct {
 	pokeApiClient   pokeapi.Client
+	pokeCache       *pokecache.Cache
 	nextLocationUrl string
 	prevLocationUrl string
 }
