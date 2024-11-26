@@ -6,6 +6,7 @@ import (
 	"github.com/AlexeyErmolenko/pokedexcli/internal/pokeapi"
 	"github.com/AlexeyErmolenko/pokedexcli/internal/pokecache"
 	"os"
+	"strings"
 )
 
 type config struct {
@@ -26,13 +27,20 @@ func startRepl(conf *config) {
 			break
 		}
 
-		commandName := scanner.Text()
+		commandLine := scanner.Text()
+		arguments := strings.Split(commandLine, " ")
+		if len(arguments) < 1 {
+			fmt.Printf(preErrL(fmt.Errorf("command not given")))
+		}
+
+		commandName := arguments[0]
 		command, ok := cliCommands[commandName]
 		if !ok {
 			continue
 		}
 
-		err := command.callback(conf)
+		commandArgs := arguments[1:]
+		err := command.callback(conf, commandArgs)
 
 		if err != nil {
 			fmt.Printf(preErrL(err))

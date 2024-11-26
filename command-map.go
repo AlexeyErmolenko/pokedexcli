@@ -5,11 +5,11 @@ import (
 	"github.com/AlexeyErmolenko/pokedexcli/internal/pokeapi"
 )
 
-func commandMap(conf *config) error {
+func commandMap(conf *config, args []string) error {
 	return getLocation(conf, conf.nextLocationUrl)
 }
 
-func commandMapB(conf *config) error {
+func commandMapB(conf *config, args []string) error {
 	return getLocation(conf, conf.prevLocationUrl)
 }
 
@@ -24,6 +24,8 @@ func getLocation(conf *config, url string) error {
 		}
 
 		body = data
+
+		conf.pokeCache.Add(url, body)
 	}
 
 	page, err := conf.pokeApiClient.ParseLocationAreas(body)
@@ -35,8 +37,6 @@ func getLocation(conf *config, url string) error {
 
 	conf.nextLocationUrl = page.Next
 	conf.prevLocationUrl = page.Previous
-
-	conf.pokeCache.Add(url, body)
 
 	return nil
 }

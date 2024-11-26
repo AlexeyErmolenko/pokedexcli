@@ -2,7 +2,7 @@ package main
 
 import "fmt"
 
-func commandHelp(conf *config) error {
+func commandHelp(conf *config, args []string) error {
 	fmt.Println(prepareWelcomeLine())
 	fmt.Print("Usage: \n\n")
 
