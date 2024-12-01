@@ -30,7 +30,6 @@ func (c *Client) GetPokemonsLocationArea(areaName string) ([]byte, error) {
 	url := baseURL + "location-area/" + areaName
 
 	return c.makeGetRequest(url)
-
 }
 
 func (c *Client) ParsePokemonsLocationArea(body []byte) (*[]Pokemon, error) {

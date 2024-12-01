@@ -14,6 +14,7 @@ type config struct {
 	pokeCache       *pokecache.Cache
 	nextLocationUrl string
 	prevLocationUrl string
+	caughtPokemon   map[string]pokeapi.PokemonDetail
 }
 
 func startRepl(conf *config) {

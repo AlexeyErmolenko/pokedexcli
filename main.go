@@ -26,6 +26,7 @@ func main() {
 	conf := &config{
 		pokeApiClient: pokeClient,
 		pokeCache:     pokeCache,
+		caughtPokemon: map[string]pokeapi.PokemonDetail{},
 	}
 
 	startRepl(conf)
