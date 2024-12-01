@@ -29,11 +29,11 @@ func showPokemonDetails(pokemon pokeapi.PokemonDetail) {
 
 	fmt.Printf("%s\n", escSQ+tealColor+end+"Stats:"+escSQ+regularStyle+end)
 	for _, s := range pokemon.Stats {
-		fmt.Printf("\t%s\n", escSQ+tealColor+end+"-"+s.Stat.Name+": "+strconv.Itoa(s.BaseStat)+escSQ+regularStyle+end)
+		fmt.Printf("\t%s\n", escSQ+tealColor+end+"- "+s.Stat.Name+": "+strconv.Itoa(s.BaseStat)+escSQ+regularStyle+end)
 	}
 
 	fmt.Printf("%s\n", escSQ+tealColor+end+"Types:"+escSQ+regularStyle+end)
 	for _, t := range pokemon.Types {
-		fmt.Printf("\t%s\n", escSQ+tealColor+end+"-"+t.Type.Name+escSQ+regularStyle+end)
+		fmt.Printf("\t%s\n", escSQ+tealColor+end+"- "+t.Type.Name+escSQ+regularStyle+end)
 	}
 }
