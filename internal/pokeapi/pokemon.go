@@ -23,9 +23,22 @@ type PokemonDetail struct {
 	PastTypes              []interface{} `json:"past_types"`
 	Species                interface{}   `json:"species"`
 	Sprites                interface{}   `json:"sprites"`
-	Stats                  []interface{} `json:"stats"`
-	Types                  []interface{} `json:"types"`
-	Weight                 int           `json:"weight"`
+	Stats                  []struct {
+		BaseStat int `json:"base_stat"`
+		Effort   int `json:"effort"`
+		Stat     struct {
+			Name string `json:"name"`
+			URL  string `json:"url"`
+		} `json:"stat"`
+	} `json:"stats"`
+	Types []struct {
+		Slot int `json:"slot"`
+		Type struct {
+			Name string `json:"name"`
+			URL  string `json:"url"`
+		} `json:"type"`
+	} `json:"types"`
+	Weight int `json:"weight"`
 }
 
 func (c *Client) GetPokemon(pokemonName string) ([]byte, error) {
